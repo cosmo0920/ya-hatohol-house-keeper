@@ -5,28 +5,32 @@ import Data.Time (Day, LocalTime, NominalDiffTime, TimeZone, UTCTime,
                   getCurrentTime, getCurrentTimeZone, utcToLocalTime, addUTCTime, formatTime,
                   defaultTimeLocale, parseTimeOrError)
 
+thirtyDaysPastInTest :: String -> IO String
+thirtyDaysPastInTest timeStr = do
+  zone <- getCurrentTimeZone
+  let utc = parseTimeOrError True defaultTimeLocale "%Y/%m/%d" timeStr :: UTCTime
+  past30Day <- thirtyDaysPast' zone utc
+  return past30Day
+
 specs :: Spec
 specs = describe "util functions" $ do
-  it "obtaining unixtime with 2008/10/1 10:00" $
-    toEpochTimeSecInternal "2008/10/1 10:00" `shouldBe` 1222822800
+  describe "obtaining unixtime" $ do
+    it "with 2008/10/1 10:00" $
+      toEpochTimeSecInternal "2008/10/1 10:00" `shouldBe` 1222822800
 
-  it "obtaining unixtime with 2011/11/22 10:00" $
-    toEpochTimeSecInternal "2011/11/22 10:00" `shouldBe` 1321923600
+    it "with 2011/11/22 10:00" $
+      toEpochTimeSecInternal "2011/11/22 10:00" `shouldBe` 1321923600
 
-  it "obtaining unixtime with 2015/12/5 10:00" $
-    toEpochTimeSecInternal "2015/12/5 10:00" `shouldBe` 1449277200
+    it "with 2015/12/5 10:00" $
+      toEpochTimeSecInternal "2015/12/5 10:00" `shouldBe` 1449277200
+  describe "obtaining 30days past" $ do
+    it "with 2015/12/01" $ do
+      past <- thirtyDaysPastInTest "2015/12/01"
+      past `shouldBe` "2015/11/01"
 
-  it "obtaining one past month with 2015/12/01" $ do
-    zone <- getCurrentTimeZone
-    let utc = parseTimeOrError True defaultTimeLocale "%Y/%m/%d" "2015/12/01" :: UTCTime
-    past <- thirtyDaysPast' zone utc
-    past `shouldBe` "2015/11/01"
-
-  it "obtaining one past month with 2015/01/01" $ do
-    zone <- getCurrentTimeZone
-    let utc = parseTimeOrError True defaultTimeLocale "%Y/%m/%d" "2015/01/01" :: UTCTime
-    past <- thirtyDaysPast' zone utc
-    past `shouldBe` "2014/12/02"
+    it "with 2015/01/01" $ do
+      past <- thirtyDaysPastInTest "2015/01/01"
+      past `shouldBe` "2014/12/02"
 
 main :: IO ()
 main = hspec $ specs
