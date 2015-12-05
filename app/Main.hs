@@ -41,7 +41,7 @@ runQuery Config {..} = do
 
 main :: IO ()
 main = do
-  execParser opts >>= runQuery
+  customExecParser (prefs showHelpOnError) opts >>= runQuery
 
   where
     opts = info (helper <*> config)
