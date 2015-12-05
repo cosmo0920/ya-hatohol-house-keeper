@@ -15,9 +15,9 @@ config = Config
      <$> strOption
          ( long "date"
         <> metavar "DATE"
-        <> value (unsafePerformIO oneMonthPast)
+        <> value (unsafePerformIO thirtyDaysPastFromToday)
         <> help ("Specify date time with format %Y/%m/%d [default:" ++
-                 unsafePerformIO oneMonthPast ++ "]" ))
+                 unsafePerformIO thirtyDaysPastFromToday ++ "]" ))
      <*> switch
          ( long "stat"
         <> help "Get statistics")

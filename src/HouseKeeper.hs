@@ -7,9 +7,10 @@
 module HouseKeeper where
 
 import Data.Int (Int32, Int64)
-import Data.Time (Day, LocalTime, NominalDiffTime,
+import Data.Time (Day, LocalTime, NominalDiffTime, TimeZone, UTCTime,
                   getCurrentTime, getCurrentTimeZone, utcToLocalTime, addUTCTime, formatTime,
                   defaultTimeLocale)
+import System.Posix.Types (EpochTime)
 import Database.Relational.Query
 import qualified Events
 import Events (Events, events, tableOfEvents)
@@ -28,20 +29,30 @@ import DataSource (connect)
 import qualified Data.ByteString.Char8 as BC
 import Data.UnixTime
 
-oneMonthPast :: IO String
-oneMonthPast = do
+thirtyDaysPastFromToday :: IO String
+thirtyDaysPastFromToday = do
   now <- getCurrentTime
   zone <- getCurrentTimeZone
-  let utc = addUTCTime ((-60*60*24*30)::NominalDiffTime) now
-  let zonedTime = utcToLocalTime zone utc
-  let result = formatTime defaultTimeLocale "%Y/%m/%d" zonedTime
-  return $ result
+  result <- thirtyDaysPast' zone now
+  return result
+
+thirtyDaysPast' :: TimeZone -> UTCTime -> IO String
+thirtyDaysPast' zone time = do
+  let utc = addUTCTime ((-60*60*24*30)::NominalDiffTime) time
+      zonedTime = utcToLocalTime zone utc
+      result = formatTime defaultTimeLocale "%Y/%m/%d" zonedTime
+  return result
 
 unsafeDayValue :: SqlProjectable p => String -> p (Maybe LocalTime)
 unsafeDayValue = unsafeProjectSqlTerms . showConstantTermsSQL
 
 toEpochTimeSec :: SqlProjectable p => String -> p Int32
 toEpochTimeSec dt = unsafeProjectSqlTerms . showConstantTermsSQL $ (show epoch :: String)
+  where
+    epoch = toEpochTimeSecInternal dt
+
+toEpochTimeSecInternal :: String -> EpochTime
+toEpochTimeSecInternal dt = epoch
   where
     epoch = toEpochTime unixtime
     unixtime = parseUnixTime format (BC.pack dt)
