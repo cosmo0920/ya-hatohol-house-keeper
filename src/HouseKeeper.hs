@@ -21,7 +21,6 @@ import Database.Record
 import Database.Relational.Query
 
 import Database.HDBC (IConnection, SqlValue, rollback, commit)
-import Database.HDBC.Query.TH (makeRecordPersistableDefault)
 import Database.HDBC.Record (runDelete, runInsert, runInsertQuery, runQuery, runUpdate)
 import Database.HDBC.Session (withConnectionIO, handleSqlError')
 import DataSource (connect)

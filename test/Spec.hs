@@ -1,8 +1,7 @@
 import HouseKeeper
 import Test.Hspec
-import Control.Monad.Trans (liftIO)
-import Data.Time (Day, LocalTime, NominalDiffTime, TimeZone, UTCTime,
-                  getCurrentTime, getCurrentTimeZone, utcToLocalTime, addUTCTime, formatTime,
+import Data.Time (TimeZone, UTCTime,
+                  getCurrentTime, getCurrentTimeZone,
                   defaultTimeLocale, parseTimeOrError)
 
 thirtyDaysPastInTest :: String -> IO String
