@@ -17,7 +17,7 @@ config = Config
         <> metavar "DATE"
         <> value (unsafePerformIO thirtyDaysPastFromToday)
         <> help ("Specify date time with format %Y/%m/%d [default:" ++
-                 unsafePerformIO thirtyDaysPastFromToday ++ "]" ))
+                 unsafePerformIO thirtyDaysPastFromToday ++ "]"))
      <*> switch
          ( long "stat"
         <> help "Get statistics")
