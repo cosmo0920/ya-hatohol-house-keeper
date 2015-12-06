@@ -5,9 +5,10 @@ services:
   - mysql
 
 install:
+  - mysql -uroot -e "CREATE DATABASE hatohol;"
   - mysql -uroot -e "CREATE USER 'hatohol'@'localhost' IDENTIFIED BY 'hatohol';"
   - mysql -uroot -e "GRANT ALL PRIVILEGES ON hatohol.* TO 'hatohol'@'localhost';"
-  - mysql -uroot < ./fixture/hatohol.sql
+  - mysql -uroot hatohol < ./fixture/hatohol.sql
   - stack --skip-ghc-check setup
   - stack +RTS -N2 -RTS --no-terminal build
 
