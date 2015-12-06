@@ -1,6 +1,8 @@
 Yet Another Hatohol House Keeper
 ===
 
+[![Build Status](https://travis-ci.org/cosmo0920/ya-hatohol-house-keeper.svg?branch=master)](https://travis-ci.org/cosmo0920/ya-hatohol-house-keeper)
+
 ## Prepare
 
 * Stack
