@@ -1,4 +1,4 @@
 [submodule "hdbc-mysql"]
 	path = hdbc-mysql
-	url = git@github.com:bos/hdbc-mysql.git
+	url = https://github.com/bos/hdbc-mysql.git
 	ignore = dirty
