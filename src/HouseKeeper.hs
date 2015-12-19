@@ -7,26 +7,25 @@
 module HouseKeeper where
 
 import Data.Int (Int32, Int64)
+import System.Posix.Types (EpochTime)
+import qualified Data.ByteString.Char8 as BC
 import Data.Time (Day, LocalTime, NominalDiffTime, TimeZone, UTCTime,
                   getCurrentTime, getCurrentTimeZone, utcToLocalTime, addUTCTime, formatTime,
                   defaultTimeLocale)
-import System.Posix.Types (EpochTime)
+import Data.UnixTime
+
 import Database.Relational.Query
 import qualified Events
 import Events (Events, events, tableOfEvents)
 import qualified ActionLogs
 import ActionLogs (ActionLogs, actionLogs, tableOfActionLogs)
 import Database.Record
-
 import Database.Relational.Query
 
 import Database.HDBC (IConnection, SqlValue, rollback, commit)
 import Database.HDBC.Record (runDelete, runInsert, runInsertQuery, runQuery, runUpdate)
 import Database.HDBC.Session (withConnectionIO, handleSqlError')
 import DataSource (connect)
-
-import qualified Data.ByteString.Char8 as BC
-import Data.UnixTime
 
 thirtyDaysPastFromToday :: IO String
 thirtyDaysPastFromToday = do
