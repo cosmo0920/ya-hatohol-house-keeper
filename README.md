@@ -12,16 +12,17 @@ Yet Another Hatohol House Keeper
 ```bash
 $ git submodule update --init
 $ stack setup
+$ mysql-uroot < fixture/hatohol.sql
 $ stack build
 ```
 
 ## Dependent packages
 
-* HDBC related cabal packages (including sqlite3, postgresql, and mysql) and HRR!
+* HDBC related cabal packages (including mysql) and HRR!
 
 ## Usage
 
-1. Setup Hatohol packages before compiling
+1. Setup Hatohol Database schema before compiling
 2. prepare haskell-stack environment
 3. stack build (also you can run test code with `stack test`)
 4. execute with `--table`, `--stat`, and `--date` options. (`--date` option is optional)
